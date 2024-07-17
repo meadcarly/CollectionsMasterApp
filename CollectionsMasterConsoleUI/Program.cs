@@ -19,14 +19,13 @@ namespace CollectionsMasterConsoleUI
             var numbers = new int[50];
 
             //Done  TODO: Create a method to populate the number array with 50 random numbers that are between 0 and 50
-            
+            Populater(numbers);
 
             //Done  TODO: Print the first number of the array
-            Populater(numbers);
             Console.WriteLine(numbers[0]);
 
             //Done  TODO: Print the last number of the array
-            Console.WriteLine(numbers[numbers.Length-1]);
+            Console.WriteLine(numbers[numbers.Length - 1]);
 
             Console.WriteLine("All Numbers Original");
             //Done  UNCOMMENT this method to print out your numbers from arrays or lists
@@ -72,20 +71,28 @@ namespace CollectionsMasterConsoleUI
             var numberList = new List<int>();
 
             //Done  TODO: Print the capacity of the list to the console
-            Console.WriteLine(numberList.Count);
+            Console.WriteLine(numberList.Capacity);
 
             //Done  TODO: Populate the List with 50 random numbers between 0 and 50 you will need a method for this            
             Populater(numberList);
 
             //Done  TODO: Print the new capacity
-            Console.WriteLine(numberList.Count);
+            Console.WriteLine(numberList.Capacity);
 
             Console.WriteLine("---------------------");
 
             //Done  TODO: Create a method that prints if a user number is present in the list
             //Done  Remember: What if the user types "abc" accident your app should handle that!
-            Console.WriteLine("What number will you search for in the number list?");
-            NumberChecker(numberList,90);
+            bool isAnswer = true;
+            int searchNumber;
+
+            do
+            {
+                Console.WriteLine("What number will you search for in the number list?");
+                int.TryParse(Console.ReadLine(), out searchNumber);
+            } while (!isAnswer);
+            
+            NumberChecker(numberList, searchNumber);
             Console.WriteLine("-------------------");
 
             Console.WriteLine("All Numbers:");
@@ -130,12 +137,11 @@ namespace CollectionsMasterConsoleUI
 
         private static void OddKiller(List<int> numberList)
         {
-            for(int i = 0; i < numberList.Count; i++)
+            for(int i = numberList.Count -1; i >= 0; i--)
             {
                 if(numberList[i] % 2 != 0)
                 {
-                    numberList.RemoveAt(i);
-                    i--;
+                    numberList.Remove(numberList[i]); ;
                 }
             }
             NumberPrinter(numberList);
@@ -143,12 +149,6 @@ namespace CollectionsMasterConsoleUI
 
         private static void NumberChecker(List<int> numberList, int searchNumber)
         {
-            if(searchNumber.GetType() != typeof(int))
-            {
-                Console.WriteLine("Please enter a valid number");
-            }
-            
-            {
                 if (numberList.Contains(searchNumber))
                 {
                     Console.WriteLine($"You searched for number {searchNumber}. {searchNumber} was found in the numberList!");
@@ -157,7 +157,6 @@ namespace CollectionsMasterConsoleUI
                 {
                     Console.WriteLine($"You searched for number {searchNumber}. I'm sorry, {searchNumber} was not found in the numberList.");
                 }
-            }
         }
 
         private static void Populater(List<int> numberList)
@@ -165,7 +164,7 @@ namespace CollectionsMasterConsoleUI
             Random rng = new Random();
             for (int i = 0; i < 50; i++)
             {
-                int randomListNumber = rng.Next(1, 51);
+                int randomListNumber = rng.Next(0, 51);
                 numberList.Add(randomListNumber);
             }
         }
@@ -175,7 +174,7 @@ namespace CollectionsMasterConsoleUI
             Random rng = new Random();
             for (int i = 0; i < numbers.Length; i++)
             {
-             int randomNumber = rng.Next(1, numbers.Length);
+             int randomNumber = rng.Next(0, numbers.Length);
              numbers[i] = randomNumber;
             }
 
